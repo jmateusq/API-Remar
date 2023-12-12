@@ -28,7 +28,7 @@ class DB {
                     connected=true;
                 } else {
                     client = new MongoClient(uri);
-                    //client = new MongoClient("mongodb://" + user + ":" + password + "@" + host + "/test?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin");
+                    client = new MongoClient("mongodb://" + user + ":" + password + "@" + host + ":27017/test?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin");
                     await client.connect();
                     connected=true;
                 }
