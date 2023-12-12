@@ -1,6 +1,7 @@
 const { json } = require("express");
 var MultipleChoice = require("../models/Multiplechoice");
 var DB = require("../models/db");
+const db = new DB(); 
 
 
 var sendJsonResponse = function(res, status, content){
@@ -24,15 +25,13 @@ module.exports.printFromJSON = async function(req, res){
 
 module.exports.insertChallengeStats = async function (req, res){
     try{
-        const db = new DB();
-        console.log("cheguei aqui");//não funciona??????????
         const multipleChoice = new MultipleChoice();
         const parametros = multipleChoice.getData(req.body);//URL encoded from data
-        feedback = db.insert("ChallengeStats",parametros);
-        sendJsonResponse(res, 202, {"insertedId" : feedback});
+        const feedback = await db.insert("ChallengeStats",parametros);
+        sendJsonResponse(res, 200, {"inserted Id" :  feedback});
     }
     catch(err){
         console.log(err.message);
-        sendJsonResponse(res, 500, {error: err.message});
+        sendJsonResponse(res, 501, {error: err.message});
     }
 }

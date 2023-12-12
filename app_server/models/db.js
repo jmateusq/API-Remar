@@ -21,9 +21,8 @@ class DB {
 
                 console.log("host = " + host + ", user = " + user + ", password = " + password);
                 console.log("Connecting to database " + database + " at " + (host != null ? host : "localhost") + "...");
-                //await new Promise(resolve => setTimeout(resolve, 2000));
                 console.log("=> Waiting for confirmation of MongoDB service startup");
-                if (1 == 2) {           
+                if (HOST == null) {           
                     client = new MongoClient("mongodb://127.0.0.1:27017")
                     await client.connect();
                     connected=true;
@@ -98,8 +97,8 @@ class DB {
         return retorno;
     }*/
     async insert(collectionName, object) {
-        console.log("cheguei")
-        return await client.db(DATABASE).collection(collectionName).insertOne(object);
+        const feedback = await client.db(DATABASE).collection(collectionName).insertOne(object);
+        return feedback.insertedId;
 
     }
     /*
