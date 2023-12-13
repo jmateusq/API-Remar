@@ -1,19 +1,19 @@
 const {MongoClient} = require('mongodb');
-var uri = "mongodb://admin:root@mongo:27017/test?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin"
 let client;
 
 const HOST = process.env.MONGODB_HOST;
 const USER = process.env.MONGODB_USER;
 const PASS = process.env.MONGODB_PASS;
 const DATABASE = process.env.MONGODB_DATABASE;
+const PORT = process.env.MONGODB_PORT;
 
 
 class DB {
     constructor() {
-        this.mongoConnect(HOST, USER, PASS, DATABASE);
+        this.mongoConnect(HOST, USER, PASS, DATABASE,PORT);
     }
 
-    async mongoConnect(host, user, password, database) {
+    async mongoConnect(host, user, password, database, port) {
         try{
             var connected = false; //não consegui verificar se está conectado
 
@@ -26,9 +26,8 @@ class DB {
                     client = new MongoClient("mongodb://127.0.0.1:27017")
                     await client.connect();
                     connected=true;
-                } else {
-                    client = new MongoClient(uri);
-                    client = new MongoClient("mongodb://" + user + ":" + password + "@" + host + ":27017/test?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin");
+                } else {                                                                          
+                    client = new MongoClient("mongodb://" + user + ":" + password + "@" + host + ":" + port + "/test?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin");
                     await client.connect();
                     connected=true;
                 }
@@ -39,25 +38,12 @@ class DB {
         }
         
     }
-    /*
+    
     async findOne(collectionName, query, proj) {
-        var result = null;
-        var ok = false;
-    
-        while (!ok) {
-            
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            console.log("=> Waiting for result");
-            
-            await this.conn.collection(collectionName).findOne(query, {projection: proj}) 
-                    .then(res => { result = res; ok = true })
-                    .catch(err => console.log(err))
-            
-        }
-    
-        return result;
+        const feedback = await client.db(DATABASE).collection(collectionName).findOne(query/*, {projection: proj}*/);
+        return feedback;
     }
-    
+    /*
     async find(collectionName, query, projection) {
         var result = [];
         var ok = false;

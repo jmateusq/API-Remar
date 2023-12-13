@@ -11,8 +11,9 @@ router.get('/', function(req, res, next) {
 /*Métodos para a ultilização da API*/ 
 /*POST*/ 
 router.post('/API/save', ctrlAPI.printFromJSON);
-router.post('/API/insertCS', ctrlAPI.insertChallengeStats);
+router.post('/API/CS', ctrlAPI.insertChallengeStats);
 /*GET*/
+router.get('/API/CS', ctrlAPI.getChallengeStats);
 
 
 module.exports = router;

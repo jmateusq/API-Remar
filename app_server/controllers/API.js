@@ -1,6 +1,7 @@
 const { json } = require("express");
 var MultipleChoice = require("../models/Multiplechoice");
 var DB = require("../models/db");
+const ChallengeStats = require("../models/ChallengeStats");
 const db = new DB(); 
 
 
@@ -29,6 +30,17 @@ module.exports.insertChallengeStats = async function (req, res){
         const parametros = multipleChoice.getData(req.body);//URL encoded from data
         const feedback = await db.insert("ChallengeStats",parametros);
         sendJsonResponse(res, 200, {"inserted Id" :  feedback});
+    }
+    catch(err){
+        console.log(err.message);
+        sendJsonResponse(res, 501, {error: err.message});
+    }
+}
+
+module.exports.getChallengeStats = async function (req, res){
+    try{
+        const feedback = await db.findOne("ChallengeStats",{challengeId:12345});
+        sendJsonResponse(res, 200, feedback);
     }
     catch(err){
         console.log(err.message);
