@@ -12,14 +12,11 @@ services:
     ports:
       - "80:3000"
     command: "npm start"
+    depends_on:
+      - mongo
 
   mongo:
     env_file:
       - .env
     image: mongo
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    ports:
-      - "27017:27017"
