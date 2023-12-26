@@ -14,6 +14,8 @@ router.post('/API/save', ctrlAPI.printFromJSON);
 router.post('/API/CS', ctrlAPI.insertChallengeStats);
 /*GET*/
 router.get('/API/CS', ctrlAPI.getChallengeStats);
+/*PUT*/
+router.put('/API/CS',ctrlAPI.updateChallengeStats);
 
 
 module.exports = router;

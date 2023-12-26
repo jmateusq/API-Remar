@@ -1,7 +1,7 @@
 class ChallengeStats{
     constructor(){
         if(this.constructor == ChallengeStats){
-            throw new Error("Class is of abstract type and can't be instantiated");
+            throw new Error("Class ChallengeStats is of abstract type and can't be instantiated");
         }
     }
     getData(params){
@@ -11,7 +11,7 @@ class ChallengeStats{
         data.set('levelId',parseInt(body.levelId));
         data.set('levelName', body.levelName);
         data.set('levelSize', parseInt(body.levelSize));
-        data.set('win', (/true/).test(body.win));//melhor forma?
+        data.set('win', (/true/i).test(body.win));//melhor forma?
         data.set('challengeId', parseInt(body.challengeId));
         data.set('challengeType', body.challengeType);
         return data;
