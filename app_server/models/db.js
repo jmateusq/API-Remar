@@ -45,38 +45,27 @@ class DB {
         const feedback = await this.conn.collection(collectionName).findOne(query, {projection: proj});
         return feedback;
     }
-    /*
-    async find(collectionName, query, projection) {
-        var result = [];
-        var ok = false;
-
-        while (!ok) {
-            
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            console.log("=> Waiting for result");
-            
-            await this.conn.collection(collectionName).find(query).project(projection).toArray() 
-                    .then(res => { result = res; ok = true;})
-                    .catch(err => console.log(err))
-            
-        }
     
-        return result;
+    async find(collectionName, query, proj) {
+        const feedback = await this.conn.collection(collectionName).find(query, {projection: proj}).toArray();
+        return feedback;
     }
-    /*
+
     async updateOne(collection,filter,update){
-        const retorno = await this.conn.collection(collection).updateOne(filter, update);
-        return retorno;
-    }*/
+        const feedback = await this.conn.collection(collection).updateOne(filter, update);
+        return feedback;
+    }
+
     async insert(collectionName, object) {
         const feedback = await this.conn.collection(collectionName).insertOne(object);
         return feedback.insertedId;
 
     }
-    /*
+
     list(collectionName, filter) {
-        return this.conn.collection(collectionName).find(filter).toArray();
-    }*/
+        const feedback = this.conn.collection(collectionName).find(filter).toArray();
+        return feedback;
+    }
 
 }
 
