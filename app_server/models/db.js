@@ -52,7 +52,8 @@ class DB {
     }
 
     async updateOne(collection,filter,update){
-        const feedback = await this.conn.collection(collection).updateOne(filter, update);
+        update = {$set: update};
+        const feedback = await this.conn.collection(collection).updateOne(filter,update);
         return feedback;
     }
 
@@ -62,8 +63,8 @@ class DB {
 
     }
 
-    list(collectionName, filter) {
-        const feedback = this.conn.collection(collectionName).find(filter).toArray();
+    async list(collectionName, filter) {
+        const feedback = await this.conn.collection(collectionName).find(filter).toArray();
         return feedback;
     }
 

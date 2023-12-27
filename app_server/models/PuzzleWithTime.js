@@ -10,7 +10,7 @@ class PuzzleWithTime extends ChallengeStats{
         data.set('points',parseInt(body.points));
         data.set('partialPoints',parseInt(body.partialPoints));
         data.set('remainingTime',parseInt(body.remainingTime));
-        data.set('end',(/true/i).test(body.end));
+        data.set('end',(/true/i).test(body.end)); //case insensitive
         return data;
     }
 }

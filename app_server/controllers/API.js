@@ -39,7 +39,7 @@ module.exports.insertChallengeStats = async function (req, res){
 
 module.exports.getChallengeStats = async function (req, res){
     try{
-        const feedback = await db.findOne("ChallengeStats",{"levelName":"vinte e dois"},{});
+        const feedback = await db.list("ChallengeStats",{"levelName":"um"});
         sendJsonResponse(res, 200, feedback);
     }
     catch(err){
@@ -50,7 +50,7 @@ module.exports.getChallengeStats = async function (req, res){
 
 module.exports.updateChallengeStats = async function (req, res){
     try{
-        const feedback = await db.updateOne("ChallengeStats",{"levelName":"um"},{$set :{"levelName":"vinte e dois"}});
+        const feedback = await db.updateOne("ChallengeStats",{"levelName":"um"},{"levelName":"pedro"});
         sendJsonResponse(res, 200, feedback);
     }
     catch(err){
