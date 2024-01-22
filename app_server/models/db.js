@@ -51,9 +51,9 @@ class DB {
         return feedback;
     }
 
-    async updateOne(collection,filter,update){
-        update = {$set: update};
-        const feedback = await this.conn.collection(collection).updateOne(filter,update);
+    async updateOne(collectionName,operation,filter,update){
+        update = {operation: update};
+        const feedback = await this.conn.collection(collectionName).updateOne(filter,update);
         return feedback;
     }
 
@@ -67,7 +67,33 @@ class DB {
         const feedback = await this.conn.collection(collectionName).find(filter).toArray();
         return feedback;
     }
-
 }
 
-module.exports = DB;
+class DB_stats extends DB{
+    constructor(){
+        super();
+    }
+    async insertStats(collectionName,userId,exportedResourceId,data){
+        console.log("inserting "+collectionName+":"+data);
+        const stat = await this.find(collectionName,{"userId":userId,"exportedResourceId":exportedResourceId},{});
+        if(stat.length>0){
+            this.updateOne(
+                collectionName, //collection
+                $push, //operation
+                {"userId":userId,"exportedResourceId":exportedResourceId},//filter
+                { //update
+                   "stats": data
+                } 
+            )       
+        }else{
+            this.insert(
+                collectionName,//collection
+                {//object
+                    "userId":userId,"exportedResourceId":exportedResourceId, "stats":data
+                }
+            )
+        }
+    }
+}
+
+module.exports = DB_stats;

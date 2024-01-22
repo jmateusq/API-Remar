@@ -4,7 +4,6 @@ var DB = require("../models/db");
 const ChallengeStats = require("../models/ChallengeStats");
 const db = new DB(); 
 
-
 var sendJsonResponse = function(res, status, content){
     res.status(status);
     res.json(content);
@@ -39,8 +38,12 @@ module.exports.insertChallengeStats = async function (req, res){
 
 module.exports.getChallengeStats = async function (req, res){
     try{
-        const feedback = await db.list("ChallengeStats",{"levelName":"um"});
-        sendJsonResponse(res, 200, feedback);
+        const feedback = await db.insertStats("ChallengeStats","1");
+        if(feedback.length>0){
+            sendJsonResponse(res, 200, feedback);
+        }else{
+            sendJsonResponse(res, 404,"ChallengeStat not founded");
+        }        
     }
     catch(err){
         console.log(err.message);

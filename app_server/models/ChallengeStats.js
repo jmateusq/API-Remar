@@ -11,7 +11,7 @@ class ChallengeStats{
         data.set('levelId',parseInt(body.levelId));
         data.set('levelName', body.levelName);
         data.set('levelSize', parseInt(body.levelSize));
-        data.set('win', (/true/i).test(body.win));//melhor forma?
+        data.set('win', (/true/i).test(body.win));
         data.set('challengeId', parseInt(body.challengeId));
         data.set('challengeType', body.challengeType);
         return data;
