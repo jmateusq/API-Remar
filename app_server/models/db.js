@@ -51,8 +51,7 @@ class DB {
         return feedback;
     }
 
-    async updateOne(collectionName,operation,filter,update){
-        update = {operation: update};
+    async updateOne(collectionName,filter,update){
         const feedback = await this.conn.collection(collectionName).updateOne(filter,update);
         return feedback;
     }
@@ -74,22 +73,22 @@ class DB_stats extends DB{
         super();
     }
     async insertStats(collectionName,userId,exportedResourceId,data){
-        console.log("inserting "+collectionName+":"+data);
+        console.log("inserting "+collectionName+":");
+        console.log(data);
         const stat = await this.find(collectionName,{"userId":userId,"exportedResourceId":exportedResourceId},{});
         if(stat.length>0){
-            this.updateOne(
+            await this.updateOne(
                 collectionName, //collection
-                $push, //operation
                 {"userId":userId,"exportedResourceId":exportedResourceId},//filter
                 { //update
-                   "stats": data
+                   $push:{"stats":data}
                 } 
             )       
         }else{
-            this.insert(
+            await this.insert(
                 collectionName,//collection
                 {//object
-                    "userId":userId,"exportedResourceId":exportedResourceId, "stats":data
+                    "userId":userId,"exportedResourceId":exportedResourceId, "stats":[data]
                 }
             )
         }

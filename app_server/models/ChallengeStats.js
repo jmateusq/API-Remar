@@ -7,7 +7,7 @@ class ChallengeStats{
     getData(params){
         const body = params 
         const data = new Map();
-        data.set('timestamp',body.timestamp?body.timestamp:Date.now);
+        data.set('timestamp',body.timestamp?body.timestamp:Date.now);//problema com esse tempo aí
         data.set('levelId',parseInt(body.levelId));
         data.set('levelName', body.levelName);
         data.set('levelSize', parseInt(body.levelSize));

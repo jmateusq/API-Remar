@@ -13,16 +13,14 @@ class StatsControl{
     saveChallengeStats = async function(req,res){
         try{
             var params = req.body;
-            console.log("cheguei aqui");
             if(/*exportedToGroup()*/true){
                 const factory = StatisticFactory.instance();
                 const challengeStats = factory.createStatistics(params.challengeType);
-                console.log(challengeStats);
                 const userId = parseFloat(params.userId);
                 const exportedResourceId = parseInt(params.exportedResourceId);
                 const data = challengeStats.getData(params);
-                await db.insertStats("challengeStats",userId,exportedResourceId,data);
-                console.log("saving challenge stats..."+userId+exportedResourceId+data);
+                console.log("saving challenge stats...");
+                await db.insertStats("ChallengeStats",userId,exportedResourceId,data);
                 sendJsonResponse(res,200);
             }else{
                 sendJsonResponse(res,500,"Stats skipped. Game was not published to a group.");

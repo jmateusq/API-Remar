@@ -26,7 +26,6 @@ class StatisticFactory {
 
     createStatistics(challengeType){
         let stats;
-
         switch(challengeType){
             case 'questionAndAnswer':
                 stats = new QuestionAndAnswer();

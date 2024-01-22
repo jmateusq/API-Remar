@@ -19,6 +19,8 @@ router.get('/API/CS', ctrlAPI.getChallengeStats);
 //PUT
 router.put('/API/CS',ctrlAPI.updateChallengeStats);
 
+
+//isso é put ou post?
 router.put('/API/pedro',statsControl.saveChallengeStats);
 
 module.exports = router;
