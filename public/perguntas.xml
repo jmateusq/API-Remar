@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Perguntas>
+  <Classe ClaAno='1'>
+    <Pergunta PergNum='0' respCorreta='0' titulo='Questão 1 – Nível 1'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='1' respCorreta='0' titulo='Questão 2 – Nível 1'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='2' respCorreta='0' titulo='Questão 3 – Nível 1'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='3' respCorreta='0' titulo='Questão 4 – Nível 1'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='4' respCorreta='0' titulo='Questão 5 – Nível 1'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+  </Classe>
+  <Classe ClaAno='2'>
+    <Pergunta PergNum='0' respCorreta='0' titulo='Questão 1 – Nível 2'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='1' respCorreta='0' titulo='Questão 2 – Nível 2'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='2' respCorreta='0' titulo='Questão 3 – Nível 2'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='3' respCorreta='0' titulo='Questão 4 – Nível 2'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='4' respCorreta='0' titulo='Questão 5 – Nível 2'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+  </Classe>
+  <Classe ClaAno='3'>
+    <Pergunta PergNum='0' respCorreta='0' titulo='Questão 1 – Nível 3'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='1' respCorreta='0' titulo='Questão 2 – Nível 3'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='2' respCorreta='0' titulo='Questão 3 – Nível 3'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='3' respCorreta='0' titulo='Questão 4 – Nível 3'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+    <Pergunta PergNum='4' respCorreta='0' titulo='Questão 5 – Nível 3'>
+      <Resp num='0'>Alternativa 1</Resp>
+      <Resp num='1'>Alternativa 2</Resp>
+      <Resp num='2'>Alternativa 3</Resp>
+      <Resp num='3'>Alternativa 4</Resp>
+    </Pergunta>
+  </Classe>
+</Perguntas>

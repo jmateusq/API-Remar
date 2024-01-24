@@ -3,7 +3,7 @@ const QuestionAndAnswer = require("./QuestionAndAnswer");
 const PuzzleWithTime = require("./PuzzleWithTime");
 const ShuffleWord = require("./ShuffleWord");
 const DragPictures = require("./DragPictures");
-//preciso testar esse código
+
 
 
 class StatisticFactory {

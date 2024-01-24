@@ -68,7 +68,7 @@ class DB {
     }
 }
 
-class DB_stats extends DB{
+class DB_stats extends DB{ //separar em outro arquivo e usar singleton em DB
     constructor(){
         super();
     }

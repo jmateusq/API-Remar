@@ -6,9 +6,9 @@ const StatsControl = require('../controllers/StatsController');
 var statsControl = new StatsControl;
 
 //GET home page. 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+//router.get('/', function(req, res, next) {
+//  res.render('index', { title: 'Express' });
+//});
 
 
 //Métodos para a ultilização da API 
@@ -21,7 +21,7 @@ router.put('/API/CS',ctrlAPI.updateChallengeStats);
 
 
 //isso é put ou post?
-router.put('/API/pedro',statsControl.saveChallengeStats);
+router.post('/stats/saveChallengeStats',statsControl.saveChallengeStats);
 
 module.exports = router;
 
