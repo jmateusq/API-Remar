@@ -1,7 +1,7 @@
 const { json } = require("express");
 const StatisticFactory = require("../models/StatisticFactory");
-var DB_stats = require("../models/db"); //não to entendendo a diferenciação entre DB e DB_stats
-const db = new DB_stats; 
+var DB = require("../models/db"); 
+const db = DB.instance(); 
 
 var sendJsonResponse = function(res, status, content){
     res.status(status);

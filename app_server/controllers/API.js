@@ -2,7 +2,7 @@ const { json } = require("express");
 var MultipleChoice = require("../models/Multiplechoice");
 var DB = require("../models/db");
 const ChallengeStats = require("../models/ChallengeStats");
-const db = new DB(); 
+const db = DB.instance(); 
 
 var sendJsonResponse = function(res, status, content){
     res.status(status);

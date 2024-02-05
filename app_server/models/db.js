@@ -9,13 +9,27 @@ const PORT = process.env.MONGODB_PORT;
 
 
 class DB {
-    constructor() {
-        this.mongoConnect(HOST, USER, PASS, DATABASE,PORT);
+    static #internalConstructor = false;
+    static #internalinstance = null;
+    constructor(){
+        if(!DB.#internalConstructor&&!child){
+            throw new TypeError("You cannot use ''New DB()'' because it use singleton");
+        }
+        DB.#internalConstructor = false;
+    }
+
+    static instance(){
+        if(DB.#internalinstance==null){
+            DB.#internalConstructor = true;
+            DB.#internalinstance = new DB();
+            DB.#internalinstance.mongoConnect(HOST, USER, PASS, DATABASE,PORT);
+        }
+        return DB.#internalinstance;
     }
 
     async mongoConnect(host, user, password, database, port) {
         try{
-            var connected = false; //não consegui verificar se está conectado
+            var connected = false;
 
             while (!connected) {
 
@@ -66,12 +80,7 @@ class DB {
         const feedback = await this.conn.collection(collectionName).find(filter).toArray();
         return feedback;
     }
-}
 
-class DB_stats extends DB{ //separar em outro arquivo e usar singleton em DB
-    constructor(){
-        super();
-    }
     async insertStats(collectionName,userId,exportedResourceId,data){
         console.log("inserting "+collectionName+":");
         console.log(data);
@@ -95,4 +104,36 @@ class DB_stats extends DB{ //separar em outro arquivo e usar singleton em DB
     }
 }
 
-module.exports = DB_stats;
+/*
+POSSO FAZER A CLASSE NÃO SER FILHA E CHAMAR UMA 
+INSTANCIA DE DB? OU MELHOR DEIXAR JUNTO?
+OU TEM OUTRA FORMA SEM SER PASSANDO UM PARAMETRO PELO CONSTRUTOR?
+
+class DB_stats extends DB{ //separar em outro arquivo e usar singleton em DB
+    constructor(){
+        super(true);
+    }
+    async insertStats(collectionName,userId,exportedResourceId,data){
+        console.log("inserting "+collectionName+":");
+        console.log(data);
+        const stat = await this.find(collectionName,{"userId":userId,"exportedResourceId":exportedResourceId},{});
+        if(stat.length>0){
+            await this.updateOne(
+                collectionName, //collection
+                {"userId":userId,"exportedResourceId":exportedResourceId},//filter
+                { //update
+                   $push:{"stats":data}
+                } 
+            )       
+        }else{
+            await this.insert(
+                collectionName,//collection
+                {//object
+                    "userId":userId,"exportedResourceId":exportedResourceId, "stats":[data]
+                }
+            )
+        }
+    }
+}
+*/
+module.exports = DB;
