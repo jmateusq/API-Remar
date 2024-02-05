@@ -12,16 +12,16 @@ var statsControl = new StatsControl;
 
 
 //Métodos para a ultilização da API 
-//POST 
-router.post('/API/CS', ctrlAPI.insertChallengeStats);
+
 //GET
 router.get('/API/CS', ctrlAPI.getChallengeStats);
 //PUT
 router.put('/API/CS',ctrlAPI.updateChallengeStats);
 
 
-//isso é put ou post?
+//stats
 router.post('/stats/saveChallengeStats',statsControl.saveChallengeStats);
+router.post('/stats/saveTimeStats',statsControl.saveTimeStats);
 
 module.exports = router;
 

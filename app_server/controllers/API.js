@@ -24,19 +24,6 @@ module.exports.printFromJSON = async function(req, res){
 }
 
 
-module.exports.insertChallengeStats = async function (req, res){
-    try{
-        const multipleChoice = new MultipleChoice();
-        const parametros = multipleChoice.getData(req.body);//URL encoded from data
-        const feedback = await db.insert("ChallengeStats",parametros);
-        sendJsonResponse(res, 200, {"inserted Id" :  feedback});
-    }
-    catch(err){
-        console.log(err.message);
-        sendJsonResponse(res, 501, {error: err.message});
-    }
-}
-
 module.exports.getChallengeStats = async function (req, res){
     try{
         const feedback = await db.insertStats("ChallengeStats","1");
