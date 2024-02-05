@@ -7,6 +7,7 @@ const db = new DB();
 var sendJsonResponse = function(res, status, content){
     res.status(status);
     res.json(content);
+    console.log();
 };
 
 
