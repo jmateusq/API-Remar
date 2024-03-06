@@ -8,9 +8,7 @@ var router = express.Router();
 router.post('/stats/saveChallengeStats',statsControl.saveChallengeStats);
 router.post('/stats/saveTimeStats',statsControl.saveTimeStats);
 
+
+router.post('/stats/saveRankingStats',statsControl.saveRankingStats);
+
 module.exports = router;
-
-
-
-
-

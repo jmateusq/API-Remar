@@ -102,7 +102,61 @@ class DB {
             )
         }
     }
+
+    async insertScoreToRanking(data){
+        /*{id, exportedResourceId, ranking:[{userId, score, timestamp}]}*/
+        const collectionEntry = await this.findOne("rankingStats",{"exportedResourceId" : data.get('exportedResourceId')},{}); //seria melhor usar o find? problema com o toArray
+        if(collectionEntry != null){ //verifica se já existe uma entrada com esse exportedResourceId
+            const pos = collectionEntry.ranking.findIndex(obj => obj.userId == data.get('userId')); // verifica se existe uma entrada desse usuario
+            if(pos!=-1){  //se entrar no if é porque existe a entrada
+                if(collectionEntry.ranking[pos].score < data.get('score')){ // novo score é maior
+                    console.log("Updating user "+data.get('userId')+" score");
+                    const selector = "ranking."+[pos];
+                    const updateObject = {};
+                    updateObject[selector] = {
+                        "userId": data.get('userId'),
+                        "score": parseFloat(data.get('score')),
+                        "timestamp": data.get('timestamp')
+                    };
+                    await this.updateOne(
+                        "rankingStats",//collection
+                        {"exportedResourceId":data.get('exportedResourceId')}, //filter
+                        { //update
+                            $set: updateObject 
+                        }
+                    )
+                }else{
+                    console.log("no score to update for user "+data.get('userId'));
+                }
+            }else{
+                
+            }
+        }else{
+            console.log('opa');
+        }
+        
+        const newcollectionEntry = await this.findOne("rankingStats",{"exportedResourceId" : data.get('exportedResourceId')},{});
+        return newcollectionEntry;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 POSSO FAZER A CLASSE NÃO SER FILHA E CHAMAR UMA 
