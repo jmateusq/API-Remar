@@ -108,7 +108,7 @@ class DB {
         const collectionEntry = await this.findOne("rankingStats",{"exportedResourceId" : data.get('exportedResourceId')},{}); //seria melhor usar o find? problema com o toArray
         if(collectionEntry != null){ //verifica se já existe uma entrada com esse exportedResourceId
             const pos = collectionEntry.ranking.findIndex(obj => obj.userId == data.get('userId')); // verifica se existe uma entrada desse usuario
-            if(pos!=-1){  //se entrar no if é porque existe a entrada
+            if(pos!=-1){  //se entrar no if é porque existe o usuario cadastrado
                 if(collectionEntry.ranking[pos].score < data.get('score')){ // novo score é maior
                     console.log("Updating user "+data.get('userId')+" score");
                     const selector = "ranking."+[pos];
@@ -129,10 +129,29 @@ class DB {
                     console.log("no score to update for user "+data.get('userId'));
                 }
             }else{
-                
+                console.log("creating user " + data.get('userId')+" score");
+                this.updateOne(
+                    "rankingStats",//collection
+                    {"exportedResourceId":data.get('exportedResourceId')},//filter
+                    {
+                        $push: {"ranking" : {
+                            "userId":data.get('userId'),
+                            "score":parseFloat(data.get('score')),
+                            "timestamp":data.get('timestamp')
+                        }}
+                    }
+                )
             }
-        }else{
-            console.log('opa');
+        }else{ //não tem nenhum ranking do exportedResourceId (jogo) 
+            console.log("creating resource "+data.get('exportedResourceId')+" ranking entry");
+            this.insert("rankingStats",{
+                "exportedResourceId":data.get('exportedResourceId'),
+                "ranking":[{
+                    "userId":data.get('userId'),
+                    "score":data.get('score'),
+                    "timesTamp":data.get('timestamp')
+                }]
+            });
         }
         
         const newcollectionEntry = await this.findOne("rankingStats",{"exportedResourceId" : data.get('exportedResourceId')},{});

@@ -57,6 +57,7 @@ class StatsControl{
                 const data = rankingStats.getData(params);
                 data.set('userId',parseFloat(params.userId)) //posso implementar dentro da classe RankingStats 
                 const saida = await db.insertScoreToRanking(data);
+                console.log("Saving ranking stats...");
                 sendJsonResponse(res,200,saida);
 
             }else{
