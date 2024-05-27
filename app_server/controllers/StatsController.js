@@ -51,21 +51,30 @@ class StatsControl{
 
     saveRankingStats = async function(req,res){
         try{
-            var params = req.body
-            if(/*exportedToGroup()*/ true){
-                const rankingStats = new RankingStats(); 
-                const data = rankingStats.getData(params);
-                data.set('userId',parseFloat(params.userId)) //posso implementar dentro da classe RankingStats 
-                const saida = await db.insertScoreToRanking(data);
-                console.log("Saving ranking stats...");
-                sendJsonResponse(res,200,saida);
+            const rankingStats = new RankingStats();
+            const data = rankingStats.getData(req.body);
+            data.set('userId',req.body.userId);
+            const status = await db.insertScoreToRanking(data);
+            sendJsonResponse(res,200,status);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }   
+    }
 
-            }else{
-                sendJsonResponse(res,500,"Stats skipped. Game was not published to a group.");
+    getRankingStats = async function (req,res){
+        try{
+            const ranking = await db.getRanking(parseFloat(req.params.exportedResourceId));
+            if(ranking){
+                sendJsonResponse(res,200,ranking);
+            }
+            else{
+                sendJsonResponse(res,404);
             }
         }catch(err){
-
+            console.log(err);
         }
+        
     }
 }
 

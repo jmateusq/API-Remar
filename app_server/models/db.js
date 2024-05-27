@@ -114,7 +114,7 @@ class DB {
                     const selector = "ranking."+[pos];
                     const updateObject = {};
                     updateObject[selector] = {
-                        "userId": data.get('userId'),
+                        "userId": parseFloat(data.get('userId')),
                         "score": parseFloat(data.get('score')),
                         "timestamp": data.get('timestamp')
                     };
@@ -135,7 +135,7 @@ class DB {
                     {"exportedResourceId":data.get('exportedResourceId')},//filter
                     {
                         $push: {"ranking" : {
-                            "userId":data.get('userId'),
+                            "userId":parseFloat(data.get('userId')),
                             "score":parseFloat(data.get('score')),
                             "timestamp":data.get('timestamp')
                         }}
@@ -147,15 +147,39 @@ class DB {
             this.insert("rankingStats",{
                 "exportedResourceId":data.get('exportedResourceId'),
                 "ranking":[{
-                    "userId":data.get('userId'),
-                    "score":data.get('score'),
-                    "timesTamp":data.get('timestamp')
+                    "userId":parseFloat(data.get('userId')),
+                    "score":parseFloat(data.get('score')),
+                    "timestamp":data.get('timestamp')
                 }]
             });
         }
         
         const newcollectionEntry = await this.findOne("rankingStats",{"exportedResourceId" : data.get('exportedResourceId')},{});
         return newcollectionEntry;
+    }
+
+    async getRanking(exportedResourceId){
+        try{
+            let ranking = []
+            const collectionEntry = await this.findOne("rankingStats",{'exportedResourceId':exportedResourceId},{})
+            if(collectionEntry!=null){
+                ranking = collectionEntry.ranking.sort((a,b)=>{
+                    if(b.score!==a.score){
+                        return b.score-a.score;
+                    }else{
+                        return a.timesTamp-b.timesTamp;
+                    }
+                });
+            }
+            if(ranking.length === 0){
+                console.log("ERROR: Could not return ranking for resource " + exportedResourceId);
+            }else{
+                return ranking;
+            }
+
+        }catch(err){
+            console.log(err)
+        }
     }
 }
 

@@ -5,12 +5,12 @@ services:
     env_file:
       - .env
     image: "node:18"
-    container_name: node_api
+    container_name: data_remar_api
     working_dir: /index
     volumes:
       - .:/index
     ports:
-      - "80:3000"
+      - "3000:3000"
     command: "npm start"
     depends_on:
       - mongo
