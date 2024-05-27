@@ -50,9 +50,13 @@ class StatsControl{
     }
 
     saveRankingStats = async function(req,res){
-        try{
+        try{   
+            console.log("req.body:\n");
+            console.log(req.body);
             const rankingStats = new RankingStats();
             const data = rankingStats.getData(req.body);
+            console.log("Data:\n");
+            console.log(data);
             data.set('userId',req.body.userId);
             const status = await db.insertScoreToRanking(data);
             sendJsonResponse(res,200,status);
