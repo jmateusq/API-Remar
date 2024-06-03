@@ -85,7 +85,7 @@ class DB {
         console.log("inserting "+collectionName+":");
         console.log(data);
         const stat = await this.find(collectionName,{"userId":userId,"exportedResourceId":exportedResourceId},{});
-        if(stat.length>0){
+        if(stat.length>0){ // existe uma entrada nessa coleção com esse userId e exportedResourceId
             await this.updateOne(
                 collectionName, //collection
                 {"userId":userId,"exportedResourceId":exportedResourceId},//filter
@@ -180,6 +180,10 @@ class DB {
         }catch(err){
             console.log(err)
         }
+    }
+
+    async getConclusionTime(exportedResourceId,users){
+        
     }
 }
 

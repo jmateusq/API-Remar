@@ -4,17 +4,10 @@ class TimeStats{
     getData(params){
         const body = params 
         const data = new Map();
-        const now = new Date(Date.now());
-        const opcoes = {
-            timeZone: 'America/Sao_Paulo',
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-          };
-        const nowBRT = now.toLocaleString('pt-BR', opcoes);
+        let now = new Date(Date.now());      
+        let originalOffset = now.getTimezoneOffset();
+        now.setMinutes(now.getMinutes() + (-180-originalOffset));
+        const nowBRT = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`
         data.set('timestamp',body.timestamp?body.timestamp:nowBRT);
 
         if(body.levelId){

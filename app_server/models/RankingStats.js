@@ -18,4 +18,3 @@ class RankingStats{
 
 module.exports = RankingStats;
 
-//precisamos resolver a questão do userId

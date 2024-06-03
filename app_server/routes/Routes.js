@@ -12,11 +12,14 @@ router.post('/stats/saveRankingStats',statsControl.saveRankingStats);
 
 //Métodos para consumo da API via Remar
 //gets
-router.get('/stats/getRanking/:exportedResourceId',statsControl.getRankingStats);
+router.get('/stats/ranking/:exportedResourceId',statsControl.ranking);
+router.get('/stats/conclusionTime/:exportedResourceId',statsControl.conclusionTime);
 
 //posts
 
 //puts
 router.put('/stats/saveRankingStats',statsControl.saveRankingStats);
+router.put('/stats/saveChallengeStats',statsControl.saveChallengeStats)
+router.put('/stats/saveTimeStats',statsControl.saveTimeStats);
 
 module.exports = router;
