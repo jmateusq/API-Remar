@@ -13,7 +13,7 @@ router.post('/stats/saveRankingStats',statsControl.saveRankingStats);
 //Métodos para consumo da API via Remar
 //gets
 router.get('/stats/ranking/:exportedResourceId',statsControl.ranking);
-router.get('/stats/conclusionTime/:exportedResourceId',statsControl.conclusionTime);
+router.get('/stats/conclusionTime/:exportedResourceId&:users',statsControl.conclusionTime);
 
 //posts
 

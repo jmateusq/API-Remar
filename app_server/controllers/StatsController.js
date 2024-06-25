@@ -72,8 +72,11 @@ class StatsControl{
 
     conclusionTime = async function(req,res){
         try{
-            const conclusionTime = await db.getConclusionTime()
+            const arrayUsers = JSON.parse(req.params.users);
+            var conclusionTime = await db.getConclusionTime(req.params.exportedResourceId,arrayUsers)
+            console.log("conclusionTime: "+conclusionTime);
             sendJsonResponse(res,200,conclusionTime);
+
         }catch(err){
             console.log(err.message);
             sendJsonResponse(res,500,err.message);

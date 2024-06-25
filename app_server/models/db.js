@@ -55,17 +55,17 @@ class DB {
         
     }
     
-    async findOne(collectionName, query, proj) {
+    async findOne(collectionName, query, proj) {//collectionName = nome da coleção; query = filtro de busca, proj = filtro de apresentação
         const feedback = await this.conn.collection(collectionName).findOne(query, {projection: proj});
         return feedback;
     }
     
-    async find(collectionName, query, proj) {
+    async find(collectionName, query, proj) {//collectionName = nome da coleção; query = filtro de busca, proj = filtro de apresentação
         const feedback = await this.conn.collection(collectionName).find(query, {projection: proj}).toArray();
         return feedback;
     }
 
-    async updateOne(collectionName,filter,update){
+    async updateOne(collectionName,filter,update){//collectionName = nome da coleção; query = filtro de busca, proj = filtro de apresentação
         const feedback = await this.conn.collection(collectionName).updateOne(filter,update);
         return feedback;
     }
@@ -78,6 +78,11 @@ class DB {
 
     async list(collectionName, filter) {
         const feedback = await this.conn.collection(collectionName).find(filter).toArray();
+        return feedback;
+    }
+
+    async getStats(collectionName,exportedResourceId,userGroups){
+        const feedback = await this.find(collectionName,{"userId":{$in:userGroups},"exportedResourceId":parseFloat(exportedResourceId)});
         return feedback;
     }
 
@@ -183,7 +188,33 @@ class DB {
     }
 
     async getConclusionTime(exportedResourceId,users){
-        
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+
+            if(timeCollection.length>0){
+                var usersTime={}; // { userId: conclusionTime }
+                timeCollection.forEach(doc => {
+                    const user = doc.userId;
+                    doc.stats.forEach(stat => {
+                        const timeType = stat.timeType;
+                        const time = stat.time;
+                        if (timeType === 0 && time > 0.0) {
+                            if (usersTime.hasOwnProperty(user)) {
+                                if (usersTime[user] > time) {
+                                    usersTime[user] = time;
+                                }
+                            } else {
+                                usersTime[user] = time;
+                            }
+                        }
+                    });
+                });
+            }
+            return Object.entries(usersTime).sort((a, b) => a[1] - b[1]);
+
+        }catch(err){
+            console.log(err)
+        }
     }
 }
 
