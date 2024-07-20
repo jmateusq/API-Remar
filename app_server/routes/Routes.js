@@ -13,7 +13,14 @@ router.post('/stats/saveRankingStats',statsControl.saveRankingStats);
 //Métodos para consumo da API via Remar
 //gets
 router.get('/stats/ranking/:exportedResourceId',statsControl.ranking);
-router.get('/stats/conclusionTime/:exportedResourceId&:users',statsControl.conclusionTime);
+router.get('/stats/conclusionTime/:exportedResourceId&:users',statsControl.conclusionTime); 
+router.get('/stats/levelTime/:exportedResourceId&:users', statsControl.levelTime);
+router.get('/stats/qntInLevels/:exportedResourceId&:users', statsControl.qntInLevels);
+router.get('/stats/levelAttemptRatio/:exportedResourceId&:users',statsControl.levelAttemptRatio);
+router.get('/stats/challAttempt/:exportedResourceId&:users',statsControl.challAttempt);
+router.get('/stats/gameInfo/:exportedResourceId',statsControl.gameInfo);
+
+//router.get('/stats/challMistakes/:exportedResourceId&:users',statsControl.)
 
 //posts
 

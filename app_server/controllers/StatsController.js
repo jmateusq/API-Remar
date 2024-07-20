@@ -73,14 +73,78 @@ class StatsControl{
     conclusionTime = async function(req,res){
         try{
             const arrayUsers = JSON.parse(req.params.users);
-            var conclusionTime = await db.getConclusionTime(req.params.exportedResourceId,arrayUsers)
-            console.log("conclusionTime: "+conclusionTime);
+            const conclusionTime = await db.getConclusionTime(req.params.exportedResourceId,arrayUsers)
             sendJsonResponse(res,200,conclusionTime);
 
         }catch(err){
             console.log(err.message);
             sendJsonResponse(res,500,err.message);
         }
+    }
+
+    levelTime = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const levelTime = await db.getLevelTime(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,levelTime);
+
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+    }
+
+    qntInLevels = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const qntInLevels = await db.getQntInLevels(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,qntInLevels);
+
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+    }
+
+    levelAttemptRatio = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const LevelAttemptRatio = await db.getLevelAttemptRatio(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,LevelAttemptRatio);
+
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+    }
+
+    challAttempt = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const challAttempt = await db.getChallAttempt(req.params.exportedResourceId,arrayUsers);
+            console.log('challAttempt: ');
+            console.log(challAttempt);
+
+            sendJsonResponse(res,200,challAttempt);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    gameInfo = async function(req,res){
+        try{
+            const gameInfo = await db.getGameInfo(req.params.exportedResourceId);
+            console.log('gameInfo: ');
+            console.log(gameInfo);
+
+            sendJsonResponse(res,200,challAttempt);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
     }
 }
 
