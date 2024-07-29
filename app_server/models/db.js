@@ -284,6 +284,8 @@ class DB {
                     }); 
                 });
                 //DEBUG: descomente as linhas abaixo
+                //console.log("usersInLevel: ")
+                //console.log(usersInLevel);
                 return usersInLevel;
 
             }else{
@@ -445,6 +447,48 @@ class DB {
         }
     }
 
+
+    async getChallTime(exportedResourceId,users){
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+            if(timeCollection.length>0){
+                var timePerChall = new Map();
+                var timeType, time;
+
+                timeCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+                        timeType = stat.timeType;
+                        time = stat.time;
+
+                        if(timeType==2 && time>0.0){
+                            var tuple = `${stat.levelName}, Desafio ${stat.challengeId}`;
+                            if(!timePerChall.has(tuple)){
+                                timePerChall.set(tuple,[]);
+                            }
+                            timePerChall.get(tuple).push(time);
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("timePerChall: ")
+                //console.log(timePerChall);
+
+                timePerChall.forEach((times, key) => {
+                    times.sort((a, b) => a - b);
+                });
+                
+                return Array.from(timePerChall);
+            }else{
+                console.log("ERROR: Could not return conclusion time for resource (getChallTime) " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
 
 }
 

@@ -19,6 +19,7 @@ router.get('/stats/qntInLevels/:exportedResourceId&:users', statsControl.qntInLe
 router.get('/stats/levelAttemptRatio/:exportedResourceId&:users',statsControl.levelAttemptRatio);
 router.get('/stats/challAttempt/:exportedResourceId&:users',statsControl.challAttempt);
 router.get('/stats/gameInfo/:exportedResourceId',statsControl.gameInfo);
+router.get('/stats/challTime/:exportedResourceId&:users',statsControl.challTime);
 
 //router.get('/stats/challMistakes/:exportedResourceId&:users',statsControl.)
 

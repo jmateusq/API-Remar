@@ -122,9 +122,6 @@ class StatsControl{
         try{
             const arrayUsers = JSON.parse(req.params.users);
             const challAttempt = await db.getChallAttempt(req.params.exportedResourceId,arrayUsers);
-            console.log('challAttempt: ');
-            console.log(challAttempt);
-
             sendJsonResponse(res,200,challAttempt);
         }catch(err){
             console.log(err.message);
@@ -136,10 +133,18 @@ class StatsControl{
     gameInfo = async function(req,res){
         try{
             const gameInfo = await db.getGameInfo(req.params.exportedResourceId);
-            console.log('gameInfo: ');
-            console.log(gameInfo);
-
             sendJsonResponse(res,200,challAttempt);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+    }
+
+    challTime = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const challTime = await db.getChallTime(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,challTime);
         }catch(err){
             console.log(err.message);
             sendJsonResponse(res,500,err.message);
