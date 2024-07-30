@@ -381,15 +381,17 @@ class DB {
     async getGameInfo(exportedResourceId){
         try{
             const challCollection = await this.getStats("challengeStats",exportedResourceId);
+
             if(challCollection.length>0){
                 var gameInfo = new Map();
                 var infoJSON = new Map();
-                var level, levelName, challenge, challengeType, question, answer;
+                var level, levelName, challenge, challengeType, question, answer, tuple;
                 var info = [];
 
 
                 challCollection.forEach(doc=>{
                     doc.stats.forEach(stat=>{
+                        
                         level     = stat.levelId
                         levelName = stat.levelName
                         challenge = stat.challengeId
@@ -403,14 +405,16 @@ class DB {
                             question = stat.initialSequence;
                         }
                         answer = stat.correctAnswer;
-                        var tuple = `${level},${challenge}`;
+                        tuple = `${level},${challenge}`;
                         info = [levelName, question, answer];
 
-                        if(gameInfo.has(tuple)){
+                        if(!gameInfo.has(tuple)){
                             gameInfo.set(tuple,info);
                         }
                     });
                 });
+
+                //o que está acima dessse comentário (dentro da função) já foi conferido
 
                 gameInfo = new Map([...gameInfo.entries()].sort((a, b) => {
                     let aChallenge = parseInt(a[0].split(',')[1], 10);
@@ -481,6 +485,48 @@ class DB {
                 return Array.from(timePerChall);
             }else{
                 console.log("ERROR: Could not return conclusion time for resource (getChallTime) " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getChallMistakes(exportedResourceId,users){
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+                var challMistakes = new Map();
+                var tuple;
+
+                statsCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        if(stat.win == false) {
+                            tuple = `${stat.levelName}, Desafio ${stat.challengeId}`;
+
+                            if(challMistakes.has(tuple)){
+                                const mistakes = challMistakes.get(tuple);
+                                challMistakes.set(tuple,mistakes+1);
+                            }else{
+                                challMistakes.set(tuple,1);
+                            }
+
+                        }
+
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("challMistakes: ")
+                //console.log(challMistakes);
+                
+                return Array.from(challMistakes);
+            }else{
+                console.log("ERROR: Could not return challenge mistakes for resource " + exportedResourceId);
                 return null
             }
 

@@ -18,10 +18,11 @@ router.get('/stats/levelTime/:exportedResourceId&:users', statsControl.levelTime
 router.get('/stats/qntInLevels/:exportedResourceId&:users', statsControl.qntInLevels);
 router.get('/stats/levelAttemptRatio/:exportedResourceId&:users',statsControl.levelAttemptRatio);
 router.get('/stats/challAttempt/:exportedResourceId&:users',statsControl.challAttempt);
-router.get('/stats/gameInfo/:exportedResourceId',statsControl.gameInfo);
+router.get('/stats/gameInfo/:exportedResourceId',statsControl.gameInfo);//não sei se está funcionando
 router.get('/stats/challTime/:exportedResourceId&:users',statsControl.challTime);
+router.get('/stats/challMistakes/:exportedResourceId&:users',statsControl.challMistakes);
 
-//router.get('/stats/challMistakes/:exportedResourceId&:users',statsControl.)
+
 
 //posts
 

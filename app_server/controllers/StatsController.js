@@ -130,10 +130,11 @@ class StatsControl{
         
     }
 
+    //INFOS DO JOGO: NÍVEIS, SEUS DESAFIOS E RESPOSTA CERTA
     gameInfo = async function(req,res){
         try{
             const gameInfo = await db.getGameInfo(req.params.exportedResourceId);
-            sendJsonResponse(res,200,challAttempt);
+            sendJsonResponse(res,200,gameInfo);
         }catch(err){
             console.log(err.message);
             sendJsonResponse(res,500,err.message);
@@ -145,6 +146,18 @@ class StatsControl{
             const arrayUsers = JSON.parse(req.params.users);
             const challTime = await db.getChallTime(req.params.exportedResourceId,arrayUsers);
             sendJsonResponse(res,200,challTime);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    challMistakes = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const challMistakes = await db.getChallMistakes(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,challMistakes);
         }catch(err){
             console.log(err.message);
             sendJsonResponse(res,500,err.message);
