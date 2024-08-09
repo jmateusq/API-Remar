@@ -414,8 +414,6 @@ class DB {
                     });
                 });
 
-                //o que está acima dessse comentário (dentro da função) já foi conferido
-
                 gameInfo = new Map([...gameInfo.entries()].sort((a, b) => {
                     let aChallenge = parseInt(a[0].split(',')[1], 10);
                     let bChallenge = parseInt(b[0].split(',')[1], 10);
@@ -535,6 +533,436 @@ class DB {
             return null;
         }
     }
+
+    async getLevelAttempt(exportedResourceId,users){//APARENTEMENTE USADO EM LUGAR NENHUM
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+
+            if(timeCollection.length>0){
+                var levelAttempts = new Map();
+                var timetype, time, levelName;
+
+                timeCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+                        timetype = stat.timeType;
+                        time = stat.time;
+
+                        if(timetype == 1 && time ==0.0){
+                            levelName = stat.levelName
+
+                            if(levelAttempts.has(levelName)){
+                                const attempts = levelAttempts.get(levelName);
+                                levelAttempts.set(levelName,attempts+1);
+                            }else{
+                                levelAttempts.set(levelName,1);
+                            }
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("levelAttempts: ")
+                //console.log(levelAttempts);
+                
+                return Array.from(levelAttempts);
+            }else{
+                console.log("ERROR: Could not return level attempts for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getAvgLevelTime (exportedResourceId,users){//APARENTEMENTE USADO EM LUGAR NENHUM
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+
+            if(timeCollection.length>0){
+                var timePerLevel = new Map();
+                var user, timeType, time, levelName;
+
+                timeCollection.forEach(doc=>{
+
+                    user = doc.userId;
+                    
+                    doc.stats.forEach(stat=>{
+
+                        timeType = stat.timeType;
+                        time = stat.time;
+
+                        if(timeType == 1 && time > 0.0){
+
+                            levelName = stat.levelName
+
+                            if(timePerLevel.has(levelName)){
+                                const userAndTime = timePerLevel.get(levelName); // Mapa apontado pelo levelname dentro do mapa timePerLevel
+                                if(userAndTime.has(user)){
+                                    userAndTime.get(user).push(time);
+                                    timePerLevel.set(user,userAndTime);
+                                }else{
+                                    userAndTime.set(user,[time])
+                                }
+
+                            }else{
+                                var userAndTime = new Map();
+                                userAndTime.set(user, [time]);
+                                timePerLevel.set(levelName,[userAndTime]);
+                            }
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("timePerLevel: ")
+                //console.log(timePerLevel);
+                
+                return Array.from(timePerLevel);
+            }else{
+                console.log("ERROR: Could not return average level time for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getChoiceFrequency(exportedResourceId,users){//APARENTEMENTE USADO EM LUGAR NENHUM
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+                var choiceFrequency = new Map();
+                var tuple;
+
+                statsCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        tuple = `${stat.levelName}, Desafio ${stat.challengeId}, ${stat.answer.toLowerCase()}, ${stat.correctAnswer.toLowerCase()}`
+
+                        if(choiceFrequency.has(tuple)){
+                            const frequency = choiceFrequency.get(tuple);
+                            choiceFrequency.set(tuple,frequency+1);
+                        }else{
+                            choiceFrequency.set(tuple,1);
+                        }
+
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("choiceFrequency: ")
+                //console.log(choiceFrequency);
+                
+                const sortedArray = Array.from(choiceFrequency.entries()).sort((a, b) => b[1] - a[1]);
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return conclusion time for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getChallMistakeRatio(exportedResourceId,users){
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+
+                var challMistakes = new Map();
+                var tuple, hitOrMiss, temp;
+
+                statsCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        tuple = `${doc.userId}, ${stat.levelName}, Desafio ${stat.challengeId}`
+
+                        if(stat.win){
+                            hitOrMiss = 0
+                            temp = [1, 0]
+                        }else{
+                            hitOrMiss = 1
+                            temp = [0, 1]
+                        }
+
+                        if(challMistakes.has(tuple)){
+                            var hitOrMissTemp = challMistakes.get(tuple);
+                            hitOrMissTemp[hitOrMiss]+=1;
+                            challMistakes.set(tuple, hitOrMissTemp);
+                        }else{
+                            challMistakes.set(tuple, temp);
+                        }
+
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("challMistakes: ")
+                //console.log(challMistakes);
+                
+                const sortedArray = Array.from(challMistakes).sort((a, b) => {
+                    const valueA = a[1][0] + a[1][1];
+                    const valueB = b[1][0] + b[1][1];
+                    return valueA - valueB;
+                });
+
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return challenge mistakes for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+
+    async getPlayerChoiceFrequency(exportedResourceId,users){
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+
+                var choiceFrequency = new Map();
+                var user, tuple;
+
+
+                statsCollection.forEach(doc=>{
+
+                    user = doc.userId;
+
+                    doc.stats.forEach(stat=>{
+
+                        tuple = `${user}, ${stat.levelName}, Desafio ${stat.challengeId}, ${stat.answer.toLowerCase()}, ${stat.correctAnswer.toLowerCase()}`
+
+                        if(choiceFrequency.has(tuple)){
+                            const aux = choiceFrequency.get(tuple);
+                            choiceFrequency.set(tuple, aux+1);
+                        }else{
+                            choiceFrequency.set(tuple, 1);
+                        }
+
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("choiceFrequency: ")
+                //console.log(choiceFrequency);
+                
+                
+                const sortedArray = Array.from(choiceFrequency.entries()).sort((a, b) => b[1] - a[1]);
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return conclusion time for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getPlayerLevelTime(exportedResourceId,users){
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+
+            if(timeCollection.length>0){
+
+                var timePerLevel = new Map();
+                var timeType, time, tuple;
+
+
+                timeCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        timeType = stat.timeType;
+                        time = stat.time;
+
+                        if(timeType==1 && time>0.0){
+                            tuple = `${doc.userId}, ${stat.levelName}`
+
+                            if(timePerLevel.has(tuple)){
+                                timePerLevel.get(tuple).push(time);
+                            }else{
+                                timePerLevel.set(tuple,[time]);
+                            }
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("timePerLevel: ")
+                //console.log(timePerLevel);
+                
+                
+                return Array.from(timePerLevel);
+            }else{
+                console.log("ERROR: Could not return conclusion time for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getPlayerChallAttempt(exportedResourceId,users){
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+
+                var challAttempts = new Map();
+                var tuple;
+
+
+                statsCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        tuple = `${doc.userId}, ${stat.levelName}, Desafio ${stat.challengeId}`;
+
+                        if(challAttempts.has(tuple)){
+                            const aux = challAttempts.get(tuple);
+                            challAttempts.set(tuple,aux+1);
+                        }else{
+                            challAttempts.set(tuple, 1);
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("challAttempts: ")
+                //console.log(challAttempts);
+
+                const sortedArray = Array.from(challAttempts).sort((a, b) => {
+                    if (a[2] < b[2]) return -1;
+                    if (a > b[2]) return 1;
+                    return 0;
+                });
+                
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return challenge attempts for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+    
+    async getPlayerChallMistakes(exportedResourceId,users){
+        try{
+            const statsCollection = await this.getStats("challengeStats",exportedResourceId,users);
+
+            if(statsCollection.length>0){
+
+                var challMistakes = new Map();
+                var tuple;
+
+
+                statsCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+                        if(stat.win == false){
+                            tuple = `${doc.userId}, ${stat.levelName}, Desafio ${stat.challengeId}`;
+                        
+                            if(challMistakes.has(tuple)){
+                                const aux = challMistakes.get(tuple);
+                                challMistakes.set(tuple,aux+1);
+                            }else{
+                                challMistakes.set(tuple, 1);
+                            }
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("challMistakes: ")
+                //console.log(challMistakes);
+
+                const sortedArray = Array.from(challMistakes).sort((a, b) => {
+                    if (a[2] < b[2]) return -1;
+                    if (a[2] > b[2]) return 1;
+                    return 0;
+                });
+                
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return challenge mistakes for resource " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+    async getPlayerChallTime(exportedResourceId,users){
+        try{
+            const timeCollection = await this.getStats("timeStats",exportedResourceId,users);
+
+            if(timeCollection.length>0){
+
+                var timePerChallenge = new Map();
+                var timeType, time;
+                var tuple;
+
+
+                timeCollection.forEach(doc=>{
+                    doc.stats.forEach(stat=>{
+
+                        timeType = stat.timeType;
+                        time = stat.time;
+
+                        if(timeType == 2 && time>0.0){
+                            tuple = `${doc.userId}, ${stat.levelName}, Desafio ${stat.challengeId}`;
+
+                            if(timePerChallenge.has(tuple)){
+                                timePerChallenge.get(tuple).push(time);
+                            }else{
+                                timePerChallenge.set(tuple, [time]);
+                            }
+                        }
+                    });
+                });
+               
+                //DEBUG: descomente as linhas abaixo
+                //console.log("timePerChallenge: ")
+                //console.log(timePerChallenge);
+
+                const sortedArray = Array.from(timePerChallenge).sort((a, b) => {
+                    if (a[2] < b[2]) return -1;
+                    if (a[2] > b[2]) return 1;
+                    return 0;
+                });
+                
+                return sortedArray;
+            }else{
+                console.log("ERROR: Could not return average challenge time for resources " + exportedResourceId);
+                return null
+            }
+
+        }catch(err){
+            console.log(err.message);
+            return null;
+        }
+    }
+
+
 
 }
 

@@ -164,6 +164,114 @@ class StatsControl{
         }
         
     }
+
+    levelAttempt = async function(req,res){//APARENTEMENTE USADO EM LUGAR NENHUM
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const levelAttempt = await db.getLevelAttempt(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,levelAttempt);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    avgLevelTime = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const avgLevelTime = await db.getAvgLevelTime(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,avgLevelTime);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    choiceFrequency = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const choiceFrequency = await db.getChoiceFrequency(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,choiceFrequency);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    challMistakeRatio = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const challMistakeRatio = await db.getChallMistakeRatio(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,challMistakeRatio);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    playerChoiceFrequency = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const playerChoiceFrequency = await db.getPlayerChoiceFrequency(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,playerChoiceFrequency);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    playerLevelTime = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const playerLevelTime = await db.getPlayerLevelTime(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,playerLevelTime);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    playerChallAttempt = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const playerChallAttempt = await db.getPlayerChallAttempt(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,playerChallAttempt);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    playerChallMistakes = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const playerChallMistakes = await db.getPlayerChallMistakes(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,playerChallMistakes);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
+
+    playerChallTime = async function(req,res){
+        try{
+            const arrayUsers = JSON.parse(req.params.users);
+            const playerChallTime = await db.getPlayerChallTime(req.params.exportedResourceId,arrayUsers);
+            sendJsonResponse(res,200,playerChallTime);
+        }catch(err){
+            console.log(err.message);
+            sendJsonResponse(res,500,err.message);
+        }
+        
+    }
 }
 
 module.exports = StatsControl;
